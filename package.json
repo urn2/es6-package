@@ -1,0 +1,26 @@
+{
+  "name": "web-es6",
+  "version": "0.0.1",
+  "description": "web es6 widget data-bind event-bind",
+  "main": "index.js",
+  "scripts": {
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urn2/web-es6.git"
+  },
+  "keywords": [
+    "dom",
+    "es6",
+    "widget",
+    "data-bind",
+    "event-bind"
+  ],
+  "author": "vea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/urn2/web-es6/issues"
+  },
+  "homepage": "https://github.com/urn2/web-es6#readme"
+}
