@@ -411,7 +411,7 @@ widget.colon('for', function(instance, target, attr){
 		target.innerHTML='';
 		if(['number', 'undefined', 'boolean', 'string'].indexOf(typeof data)== -1){
 			for(let idx in data){
-				target.innerHTML+=tpl(data[idx]);
+				target.innerHTML+=tpl(data[idx], idx);
 			}
 		}
 	};
@@ -439,8 +439,9 @@ widget.template=function(htmlString){
 	let t=htmlString.trim();
 	t=t.replace(/\{\{#([^\}\{]+)\}\}(.*)\{\{\/\1\}\}/g, '${item["$1"]?`$2`:""}');
 	t=t.replace(/\{\{\^([^\}\{]+)\}\}(.*)\{\{\/\1\}\}/g, '${item["$1"]?"":`$2`}');
-	t=t.replace(/\{\{([^\}\{]+)\}\}/g, '${item["$1"]}');
-	return eval.call(null, '(item)=>`'+t+'`');
+	t=t.replace(/\{\{-\}\}/g, '${index?index:""}');
+	t=t.replace(/\{\{([^\}\{]+)\}\}/g, '${item["$1"]?item["$1"]:""}');
+	return eval.call(null, '(item,index)=>`'+t+'`');
 };
 
 export default widget;

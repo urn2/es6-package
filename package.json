@@ -1,6 +1,6 @@
 {
   "name": "web-es6",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "web es6 widget data-bind event-bind",
   "main": "index.js",
   "scripts": {
