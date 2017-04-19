@@ -1,0 +1,27 @@
+<style>
+	.red{
+		color:red;
+	}
+	.blue{
+		border:1px solid blue;
+	}
+	.yellow{
+		box-shadow:3px 3px 3px yellow;
+	}
+</style>
+
+<h3 :class="class">修改class</h3>
+<div>
+	<button :on="changeClass">修改</button>
+</div>
+
+<h3 :class="bool:red blue">修改class：预制多class</h3>
+<div>
+	<button :on="changeBool">修改</button>
+</div>
+
+<h3 :class="!bool2:red|bool2:blue|bool2:yellow">修改class：多预制class并反转</h3>
+<div>
+	<button :on="changeBool2">修改</button>
+</div>
+

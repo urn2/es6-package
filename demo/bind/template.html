@@ -1,0 +1,19 @@
+
+<h3>单向绑定</h3>
+<div>
+	<input type="text" :bind="value:span">
+	<span :bind="html:span"></span>
+</div>
+
+<h3>双向绑定</h3>
+<div>
+	<input type="text" :bind="value:input">
+	<input type="text" :bind="value:input">
+</div>
+
+<h3>计算属性</h3>
+<div>
+	<input type="text" :bind="value:a">
+	<input type="text" :bind="value:b">
+	<span id="computed"></span>
+</div>

@@ -1,0 +1,12 @@
+
+
+<div class="list" :for="list">
+	<div class="todo">
+		<a href="#" class="delete" :on="click:delete:{{id}}">删除</a>
+		<span class="{{#done}}done{{/done}}" :on="click:toggle:{{id}}">{{text}}</span>
+	</div>
+</div>
+<div class="options">
+	<input type="text" :bind="value:new">
+	<button :on="click:add">添加</button>
+</div>
