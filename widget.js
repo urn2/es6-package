@@ -349,11 +349,11 @@ widget.colon('bind', function(instance, target, attr){
 					break;
 			}
 			target['_'+prop]=instance[key];
-			target[prop]=instance[key];
+			target[prop]=instance[key] ?instance[key] :'';
 			instance.event('data:'+key, (e, value)=>{
 				if(target['_'+prop]!=value){
 					target['_'+prop]=value;
-					target[prop]=value;
+					target[prop]=value ?value :'';
 				}
 			});
 			switch(target.nodeName){
