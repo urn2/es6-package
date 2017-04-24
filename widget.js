@@ -437,10 +437,10 @@ widget.colon('class', function(instance, target, attr){
 
 widget.template=function(htmlString){
 	let t=htmlString.trim();
-	t=t.replace(/\{\{#([^\}\{]+)\}\}(.*)\{\{\/\1\}\}/g, '${item["$1"]?`$2`:""}');
-	t=t.replace(/\{\{\^([^\}\{]+)\}\}(.*)\{\{\/\1\}\}/g, '${item["$1"]?"":`$2`}');
+	t=t.replace(/\{\{\^([\w]+)\}\}([^]*?)\{\{\/\1\}\}/g, '${item["$1"]?"":`$2`}');
+	t=t.replace(/\{\{#([\w]+)\}\}([^]*?)\{\{\/\1\}\}/g, '${item["$1"]?`$2`:""}');
 	t=t.replace(/\{\{-\}\}/g, '${index?index:""}');
-	t=t.replace(/\{\{([^\}\{]+)\}\}/g, '${item["$1"]?item["$1"]:""}');
+	t=t.replace(/\{\{([\w]+)\}\}/g, '${item["$1"]?item["$1"]:""}');
 	return eval.call(null, '(item,index)=>`'+t+'`');
 };
 
