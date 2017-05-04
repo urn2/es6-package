@@ -165,7 +165,7 @@ const ajax=(url, type='xhr')=>{
 		 * @param before
 		 * @returns {Promise}
 		 */
-		xhr(method='get', body='', {headers={}, user='', password='', bodyJson=false, progress=false, parse='api', before=false}={}){
+		xhr(method='get', body='', {headers={}, user='', password='', bodyJson=false, progress=false, parse='api', before=false}={}, async=true){
 			if(!("XMLHttpRequest" in window)) return new Promise((resolve, reject)=>reject('您的浏览器不支持XMLHttpRequest，无法继续执行'));
 			method=method.toUpperCase();
 			switch(method){
@@ -195,7 +195,7 @@ const ajax=(url, type='xhr')=>{
 			return new Promise((resolve, reject)=>{
 				DEBUG.log && console.log('ajax.xhr', 'start');
 				let xhr=new XMLHttpRequest();
-				xhr.open(method, url, true, user, password);
+				xhr.open(method, url, async, user, password);
 				Object.keys(headers).forEach((k)=>xhr.setRequestHeader(k, headers[k]));
 				if(progress.constructor.name=='Function') xhr.addEventListener('progress', progress);
 				xhr.onload=function(){
