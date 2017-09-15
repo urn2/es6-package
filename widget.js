@@ -440,6 +440,7 @@ widget.template=function(htmlString){
 	t=t.replace(/\{\{\^([\w]+)\}\}([^]*?)\{\{\/\1\}\}/g, '${item["$1"]?"":`$2`}');
 	t=t.replace(/\{\{#([\w]+)\}\}([^]*?)\{\{\/\1\}\}/g, '${item["$1"]?`$2`:""}');
 	t=t.replace(/\{\{-\}\}/g, '${index?index:""}');
+	t=t.replace(/\{\{\.\}\}/g, '${item}');
 	t=t.replace(/\{\{([\w]+)\}\}/g, '${item["$1"]?item["$1"]:""}');
 	return eval.call(null, '(item,index)=>`'+t+'`');
 };
