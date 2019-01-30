@@ -18,7 +18,7 @@ if(!Object.assign){
 }
 
 const hasProxy=(!!window.Proxy);
-const isString=(v)=>(v.constructor.name) ?v.constructor.name==='String' :(typeof v==='string');
+const isString=(v)=>(v && v.constructor.name) ?v.constructor.name==='String' :(typeof v==='string');
 
 const eventOptionsParameter=false; // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 const clear=true;
@@ -72,13 +72,15 @@ const widget=function(prototype){
 		instance.eventName=(event)=>_id+':'+event;
 		instance[_proxy_]=hasProxy ?new Proxy(instance, proxy_widget) :instance;
 
-		if(pt.el){
+		if(typeof pt.el !=='undefined'){
 			if(isString(pt.el)){
 				instance.el=document.querySelector(pt.el);
-				if(!instance.el) throw new Error('没有找到根元素，请确认');
-			}else instance.el=pt.el;
-			delete pt.el;
-		}else  instance.el=document.createElement('div');
+				if(!instance.el) throw new Error(`没有找到指定的el[${pt.el}]，请确认`);
+			}
+			else if(pt.el)instance.el=pt.el;
+			else throw new Error('没有找到指定的el，请确认');
+			delete pt.el;//当指定el为未找到的对象，防止污染
+		}else instance.el=document.createElement('div');
 
 		instance.el.widget=hasProxy ?instance[_proxy_] :instance;
 		instance.set=(property, value)=>{
@@ -164,6 +166,7 @@ const widget=function(prototype){
 					if(el.attributes[':'+de] && !el[':'+de]){//如果存在 :bind :if 之类的属性名 并且没有设置过
 						el[':'+de]=true;//防止再次生成
 						widget[_colon_][de](hasProxy ?instance[_proxy_] :instance, el, el.attributes[':'+de], instance);
+						el.removeAttribute(':'+de);
 					}
 				}
 			}
@@ -198,7 +201,7 @@ const widget=function(prototype){
 		}
 		instance.fire('init');
 		//E(instance.el).one(instance.eventName('init'));
-		instance.fire('render');
+		// instance.fire('render');
 
 		return hasProxy ?instance[_proxy_] :instance;
 	};
@@ -386,7 +389,9 @@ widget.colon('bind', function(instance, target, attr){
 
 let _not_=(value)=>!value;
 let _yes_=(value)=>!!value;
-
+/**
+ * 切换是否显示 :if="any"
+ */
 widget.colon('if', function(instance, target, attr){
 	let _do=(attr.value[0]==='!') ?_not_ :_yes_;
 	let key=(attr.value[0]==='!') ?attr.value.substr(1) :attr.value;
@@ -400,12 +405,20 @@ widget.colon('if', function(instance, target, attr){
 	instance.event('data:'+key, (e, value)=>_toggle(value));
 });
 
+widget.caches={template:{}};
 widget.colon('for', function(instance, target, attr){
 	let [key, tpl_id=false] =attr.value.split(':');
-	let html=(tpl_id && document.querySelector(tpl_id)) ?document.querySelector(tpl_id).innerHTML :target.innerHTML;
-	if(html==null || !isString(html)){
-		throw "错误的模板文件，无法获取模板";
-	}
+	let html='';
+	if(tpl_id){
+		if(widget.caches.template[tpl_id]) html =widget.caches.template[tpl_id];
+		else{
+			let tpl = document.querySelector(tpl_id);
+			if(!tpl) throw "错误的模板文件，无法获取模板";
+			html = widget.caches.template[tpl_id]=tpl.innerHTML;
+			tpl.parentNode.removeChild(tpl);
+		}
+	} else html=target.innerHTML;
+
 	let tpl=widget.template(html);
 	let render=function(data){
 		target.innerHTML='';
@@ -418,7 +431,9 @@ widget.colon('for', function(instance, target, attr){
 	render(instance[key]);
 	instance.event('data:'+key, (e, value)=>render(value));
 });
-
+/**
+ * 切换样式显示 :class="any:classname classname2|!any2:classname3"
+ */
 widget.colon('class', function(instance, target, attr){
 	attr.value.split('|').forEach((es)=>{
 		let [prop, style=false] =es.split(':');

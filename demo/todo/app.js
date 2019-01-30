@@ -1,6 +1,6 @@
 'use strict';
 
-import ready from 'web-es6/ready';
+import ready from '../../ready';
 import todo from './index'
 
 ready(()=>{
