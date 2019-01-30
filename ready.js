@@ -33,7 +33,7 @@ export default (fn, map={})=>{
 	else document.addEventListener('DOMContentLoaded', done);
 };
 
-export var reset=()=>{
+export const reset=()=>{
 	let e=new CustomEvent('hashchange', {bubbles:true, cancelable:true});
 	window.dispatchEvent(e);
 };

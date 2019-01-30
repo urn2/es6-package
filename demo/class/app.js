@@ -1,8 +1,8 @@
 import widget from '../../widget';
-import tpl from './template.html';
+import fs from "fs";
 
 let cls=widget({
-	template:tpl,
+	template:fs.readFileSync(__dirname + "/template.html", "utf8"),
 	class:'',
 	bool:false,
 	bool2:false,

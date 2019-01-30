@@ -4,12 +4,10 @@
 
 import widget from '../../widget';
 import todo from './todo';
-import tpl from './template.html';
-import css from './style.less';
+import fs from "fs";
 
 export default widget({
-	template:tpl,
-	style:css,
+	template:fs.readFileSync(__dirname + "/template.html", "utf8"),
 	new:'',
 	list:{},
 	event:{

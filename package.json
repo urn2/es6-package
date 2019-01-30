@@ -1,10 +1,12 @@
 {
   "name": "web-es6",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "web es6 widget data-bind event-bind",
   "main": "index.js",
   "scripts": {
-    
+    "demo-bind": "parcel demo/bind/index.html --no-cache",
+    "demo-class": "parcel demo/class/index.html --no-cache",
+    "demo-todo": "parcel demo/todo/index.html --no-cache"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/urn2/web-es6/issues"
   },
-  "homepage": "https://github.com/urn2/web-es6#readme"
+  "homepage": "https://github.com/urn2/web-es6#readme",
+  "devDependencies": {
+    "less": "^3.9.0"
+  }
 }
